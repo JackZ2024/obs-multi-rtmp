@@ -33,12 +33,12 @@
     },
     "platformConfig": {
         "macos": {
-            "bundleId": "net.sorayuki.obs-multi-rtmp"
+            "bundleId": "net.jack.obs-multi-rtmp"
         }
     },
     "name": "obs-multi-rtmp",
-    "version": "0.7.3.0",
-    "author": "SoraYuki",
-    "website": "https://github.com/sorayuki",
+    "version": "1.0.0.0",
+    "author": "Jack",
+    "website": "https://github.com/JackZ2024/obs-multi-rtmp",
     "email": "me@example.com"
 }
