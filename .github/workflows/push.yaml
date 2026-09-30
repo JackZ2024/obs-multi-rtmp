@@ -44,12 +44,12 @@ jobs:
           shopt -s extglob
 
           case "${GITHUB_REF_NAME}" in
-            +([0-9]).+([0-9]).+([0-9]) )
+            +([0-9]).+([0-9]).+([0-9])?(.+([0-9])) )
               echo 'validTag=true' >> $GITHUB_OUTPUT
               echo 'prerelease=false' >> $GITHUB_OUTPUT
               echo "version=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
               ;;
-            +([0-9]).+([0-9]).+([0-9])-@(beta|rc)*([0-9]) )
+            +([0-9]).+([0-9]).+([0-9])?(.+([0-9]))-@(beta|rc)*([0-9]) )
               echo 'validTag=true' >> $GITHUB_OUTPUT
               echo 'prerelease=true' >> $GITHUB_OUTPUT
               echo "version=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
@@ -77,6 +77,8 @@ jobs:
             'windows-x64;zip|exe'
             'macos-universal;tar.xz|pkg'
             'ubuntu-24.04-x86_64;tar.xz|deb|ddeb'
+            'ubuntu-26.04-x86_64;tar.xz|deb|ddeb'
+            'flatpak-x86_64;flatpak'
             'sources;tar.xz'
           )
 
@@ -98,7 +100,7 @@ jobs:
           shopt -s extglob
 
           echo "### Checksums" > ${{ github.workspace }}/CHECKSUMS.txt
-          for file in ${{ github.workspace }}/@(*.exe|*.deb|*.ddeb|*.pkg|*.tar.xz|*.zip); do
+          for file in ${{ github.workspace }}/@(*.exe|*.deb|*.ddeb|*.pkg|*.flatpak|*.tar.xz|*.zip); do
             echo "    ${file##*/}: $(sha256sum "${file}" | cut -d " " -f 1)" >> ${{ github.workspace }}/CHECKSUMS.txt
           done
 
@@ -118,4 +120,5 @@ jobs:
             ${{ github.workspace }}/*.pkg
             ${{ github.workspace }}/*.deb
             ${{ github.workspace }}/*.ddeb
+            ${{ github.workspace }}/*.flatpak
             ${{ github.workspace }}/*.tar.xz
