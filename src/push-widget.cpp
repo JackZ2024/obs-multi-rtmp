@@ -119,7 +119,7 @@ class PushWidgetImpl : public PushWidget, public IOBSOutputEventHanlder
     obs_view_t* scene_view_ = 0;
     bool isUseDelay_ = false;
 
-    QPushButton* GetDeleteButton() {
+    QPushButton* GetDeleteButton() override {
         return remove_btn_;
     }
 
@@ -582,7 +582,7 @@ public:
         LoadConfig();
     }
     
-    ~PushWidgetImpl()
+    ~PushWidgetImpl() override
     {
         ReleaseOutput();
     }

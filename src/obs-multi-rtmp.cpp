@@ -77,13 +77,13 @@ protected:
 private:
     int ContentHeight() const
     {
-        auto *widget = const_cast<OutputsListWidget *>(this);
-        widget->doItemsLayout();
-
         int totalHeight = frameWidth() * 2;
         const int itemCount = count();
         for (int i = 0; i < itemCount; ++i) {
-            totalHeight += sizeHintForRow(i);
+            const auto *listItem = item(i);
+            if (listItem) {
+                totalHeight += listItem->sizeHint().height();
+            }
         }
 
         if (itemCount > 1) {
@@ -319,12 +319,19 @@ private:
                 continue;
             }
             int row = outputsContainer_->row(listItem);
+            auto pushWidget = outputsContainer_->itemWidget(listItem);
+            if (pushWidget) {
+                outputsContainer_->removeItemWidget(listItem);
+            }
+
             auto removedItem = outputsContainer_->takeItem(row);
-            auto pushWidget = outputsContainer_->itemWidget(removedItem);
             delete removedItem;
             if (pushWidget) {
                 pushWidget->deleteLater();
             }
+
+            outputsContainer_->updateGeometry();
+            break;
         }
     }
 

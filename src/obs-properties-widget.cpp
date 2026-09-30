@@ -316,7 +316,7 @@ namespace {
             UpdateUI();
         }
 
-        ~QPropertiesWidgetImpl()
+        ~QPropertiesWidgetImpl() override
         {
             if (props)
                 obs_properties_destroy(props);
@@ -376,7 +376,7 @@ namespace {
         }
 
         bool isUpdating = false;
-        void UpdateUI() {
+        void UpdateUI() override {
             if (isUpdating)
                 return;
             isUpdating = true;
@@ -397,7 +397,7 @@ namespace {
             isUpdating = false;
         }
 
-        void Save() {
+        void Save() override {
             obs_data_apply(orig_settings, settings);
         }
 
